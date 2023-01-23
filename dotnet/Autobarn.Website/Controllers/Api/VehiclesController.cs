@@ -1,7 +1,9 @@
+using System;
 using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using Autobarn.Website.Models;
 
 namespace Autobarn.Website.Controllers.Api {
@@ -15,9 +17,25 @@ namespace Autobarn.Website.Controllers.Api {
 			this.db = db;
 		}
 
+		private const int PAGE_SIZE = 10;
 		[HttpGet]
-		public IEnumerable<Vehicle> Get() {
-			return db.ListVehicles();
+		public IActionResult Get(int index = 0) {
+			var vehicles = db.ListVehicles().Skip(index).Take(PAGE_SIZE);
+			var result = new {
+				_links = new {
+					self = new {
+						href = $"/api/vehicles?index={index}"
+					},
+					next = new {
+						href = $"/api/vehicles?index={index + PAGE_SIZE}"
+					},
+					previous = new {
+						href = $"/api/vehicles?index={index - PAGE_SIZE}"
+					}
+				},
+				items = vehicles
+			};
+			return Ok(result);
 		}
 
 		[HttpGet("{reg}")]

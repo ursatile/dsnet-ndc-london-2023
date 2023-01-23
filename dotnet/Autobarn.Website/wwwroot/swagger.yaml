@@ -16,6 +16,12 @@ paths:
         - Vehicles
       summary: Returns a list of vehicles.
       description: Returns a list of all the vehicles available in the Autobarn database
+      parameters:
+        - in: query
+          name: index
+          schema:
+            type: integer
+          description: The zero-based index of the page you want.
       responses:
         '200':    # status code
           description: A JSON array of vehicle objects
