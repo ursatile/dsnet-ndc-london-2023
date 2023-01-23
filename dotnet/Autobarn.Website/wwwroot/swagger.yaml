@@ -1,0 +1,41 @@
+openapi: 3.0.0
+info:
+  title: Autobarn API
+  description: |
+    The Autobarn API, as used in Dylan Beattie's workshop
+    [Introduction to Distributed Systems with .NET](https://urs.tl/dsnet).
+
+    (Yep, your description can have multiple lines and contain Markdown! Cool!)
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /vehicles:
+    get:
+      tags:
+        - Vehicles
+      summary: Returns a list of vehicles.
+      description: Returns a list of all the vehicles available in the Autobarn database
+      responses:
+        '200':    # status code
+          description: A JSON array of vehicle objects
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object   # Data type
+                  properties: 
+                    registration:
+                      type: string
+                    modelCode:
+                      type: string
+                    color: 
+                      type: string
+                    year:
+                      type: integer
+                  example:
+                    registration: OUTATIME
+                    modelCode: dmc-delorean
+                    color: Silver
+                    year: 1985

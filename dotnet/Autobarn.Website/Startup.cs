@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Autobarn.Website {
 	public class Startup {
@@ -43,7 +44,15 @@ namespace Autobarn.Website {
 			}
 			app.UseHttpsRedirection();
 			app.UseDefaultFiles();
-			app.UseStaticFiles();
+			var provider = new FileExtensionContentTypeProvider {
+				Mappings = {
+					[".yaml"] = "application/x-yaml",
+					[".yml"] = "application/x-yaml"
+				}
+			};
+
+			app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
+			app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger.yaml", "Autobarn API"));
 			app.UseRouting();
 			app.UseAuthorization();
 			app.UseEndpoints(endpoints => {
