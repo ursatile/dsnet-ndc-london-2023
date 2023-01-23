@@ -10,6 +10,42 @@ info:
 servers:
   - url: /api
 paths:
+  /models/{code}:
+    get:
+      tags:
+        - Models
+      summary: Get information about a vehicle model
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+      responses:
+        '200':    # status code
+          description: A JSON document describing a vehicle model
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/components/parameters/code'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vehicle'
+      responses:
+        '201':
+          description: A new vehicle was created
+        '404':
+          description: No such model code exists
+        '409':
+          description: That vehicle already exists.
   /vehicles:
     get:
       tags:
@@ -52,7 +88,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/vehicle' 
-
   /vehicles/{reg}:
     put:
       summary: Create or update a vehicle
@@ -97,6 +132,13 @@ components:
         type: string
       required: true
       description: The registration plate of the vehicle you want to get
+    code:
+      name: code
+      in: path
+      schema:
+        type: string
+      required: true
+      description: The vehicle model code you want to use
   schemas:
     vehicle:
       type: object   # Data type

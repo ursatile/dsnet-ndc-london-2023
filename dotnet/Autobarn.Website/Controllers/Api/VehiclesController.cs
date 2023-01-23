@@ -8,7 +8,6 @@ using System.Linq;
 using Autobarn.Website.Models;
 
 namespace Autobarn.Website.Controllers.Api {
-
 	[ApiController]
 	[Route("api/[controller]")]
 	public class VehiclesController : ControllerBase {
@@ -76,3 +75,5 @@ namespace Autobarn.Website.Controllers.Api {
 		}
 	}
 }
+
+
