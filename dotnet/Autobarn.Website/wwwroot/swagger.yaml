@@ -24,18 +24,62 @@ paths:
               schema: 
                 type: array
                 items:
-                  type: object   # Data type
-                  properties: 
-                    registration:
-                      type: string
-                    modelCode:
-                      type: string
-                    color: 
-                      type: string
-                    year:
-                      type: integer
-                  example:
-                    registration: OUTATIME
-                    modelCode: dmc-delorean
-                    color: Silver
-                    year: 1985
+                  $ref: '#/components/schemas/Vehicle'
+  /vehicles/{registration}:
+    put:
+      summary: Create or update a vehicle
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/components/parameters/registration'
+        - in: body
+          name: vehicle
+          description: The details of the vehicle to create or update
+          schema:
+            $ref: '#/components/schemas/Vehicle'
+      responses:
+        200:
+          description: OK.
+        201:
+          description: Created.
+    get:
+      tags:
+        - Vehicles
+      parameters:
+        - $ref: '#/components/parameters/registration'
+      responses:
+        '404':
+          description: There is no vehicle in the system matching that registration
+        '200':    # status code
+          description: A vehicle object
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Vehicle'
+
+components:
+  parameters:
+    registration:
+    - in: path
+      name: registration
+      schema:
+        type: string
+      required: true
+      description: The registration plate of the vehicle you want to get
+  schemas:
+    Vehicle:
+      type: object   # Data type
+      properties: 
+        registration:
+          type: string
+        modelCode:
+          type: string
+        color: 
+          type: string
+        year:
+          type: integer
+      example:
+        registration: OUTATIME
+        modelCode: dmc-delorean
+        color: Silver
+        year: 1985

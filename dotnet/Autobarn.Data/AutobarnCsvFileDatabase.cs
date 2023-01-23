@@ -1,4 +1,4 @@
-﻿using Autobarn.Data.Entities;
+using Autobarn.Data.Entities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -99,6 +99,7 @@ namespace Autobarn.Data {
 		public Manufacturer FindManufacturer(string code) => manufacturers.GetValueOrDefault(code);
 
 		public void CreateVehicle(Vehicle vehicle) {
+			vehicle.VehicleModel = FindModel(vehicle.ModelCode);
 			vehicle.VehicleModel.Vehicles.Add(vehicle);
 			UpdateVehicle(vehicle);
 		}
