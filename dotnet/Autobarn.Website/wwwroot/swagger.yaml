@@ -27,10 +27,32 @@ paths:
           description: A JSON array of vehicle objects
           content:
             application/json:
-              schema: 
-                type: array
-                items:
-                  $ref: '#/components/schemas/vehicle'
+              schema:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                      previous:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/vehicle' 
+
   /vehicles/{reg}:
     put:
       summary: Create or update a vehicle
