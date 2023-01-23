@@ -3,6 +3,7 @@ using Autobarn.Data;
 using Autobarn.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using Autobarn.Website.Models;
 
@@ -20,20 +21,27 @@ namespace Autobarn.Website.Controllers.Api {
 		private const int PAGE_SIZE = 10;
 		[HttpGet]
 		public IActionResult Get(int index = 0) {
-			var vehicles = db.ListVehicles().Skip(index).Take(PAGE_SIZE);
+			var items = db.ListVehicles().Skip(index).Take(PAGE_SIZE);
+			var total = db.CountVehicles();
+			// ReSharper disable once InconsistentNaming
+			dynamic _links = new ExpandoObject();
+			_links.self = new {
+				href = $"/api/vehicles?index={index}"
+			};
+			if (index > 0) {
+				_links.previous = new {
+					href = $"/api/vehicles?index={index - PAGE_SIZE}"
+				};
+			}
+
+			if (index + PAGE_SIZE < total) {
+				_links.next = new {
+					href = $"/api/vehicles?index={index + PAGE_SIZE}"
+				};
+			}
 			var result = new {
-				_links = new {
-					self = new {
-						href = $"/api/vehicles?index={index}"
-					},
-					next = new {
-						href = $"/api/vehicles?index={index + PAGE_SIZE}"
-					},
-					previous = new {
-						href = $"/api/vehicles?index={index - PAGE_SIZE}"
-					}
-				},
-				items = vehicles
+				_links,
+				items
 			};
 			return Ok(result);
 		}
