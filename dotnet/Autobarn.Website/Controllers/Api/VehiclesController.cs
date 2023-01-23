@@ -20,16 +20,16 @@ namespace Autobarn.Website.Controllers.Api {
 			return db.ListVehicles();
 		}
 
-		[HttpGet("{id}")]
-		public IActionResult Get(string id) {
-			var vehicle = db.FindVehicle(id);
+		[HttpGet("{reg}")]
+		public IActionResult Get(string reg) {
+			var vehicle = db.FindVehicle(reg);
 			if (vehicle == default) return NotFound();
 			return Ok(vehicle);
 		}
 
-		[HttpPut("{id}")]
-		public IActionResult Put(string id, [FromBody] VehicleDto dto) {
-			var vehicle = db.FindVehicle(id);
+		[HttpPut("{reg}")]
+		public IActionResult Put(string reg, [FromBody] VehicleDto dto) {
+			var vehicle = db.FindVehicle(reg);
 			if (vehicle == default) {
 				vehicle = new Vehicle() {
 					Color = dto.Color,

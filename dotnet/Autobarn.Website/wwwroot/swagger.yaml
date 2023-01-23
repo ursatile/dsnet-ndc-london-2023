@@ -24,19 +24,22 @@ paths:
               schema: 
                 type: array
                 items:
-                  $ref: '#/components/schemas/Vehicle'
-  /vehicles/{registration}:
+                  $ref: '#/components/schemas/vehicle'
+  /vehicles/{reg}:
     put:
       summary: Create or update a vehicle
+      tags:
+        - Vehicles
       consumes:
         - application/json
       parameters:
-        - $ref: '#/components/parameters/registration'
-        - in: body
-          name: vehicle
-          description: The details of the vehicle to create or update
-          schema:
-            $ref: '#/components/schemas/Vehicle'
+        - $ref: '#/components/parameters/reg'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vehicle'
       responses:
         200:
           description: OK.
@@ -46,7 +49,7 @@ paths:
       tags:
         - Vehicles
       parameters:
-        - $ref: '#/components/parameters/registration'
+        - $ref: '#/components/parameters/reg'
       responses:
         '404':
           description: There is no vehicle in the system matching that registration
@@ -55,19 +58,19 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Vehicle'
+                $ref: '#/components/schemas/vehicle'
 
 components:
   parameters:
-    registration:
-    - in: path
-      name: registration
+    reg:
+      name: reg
+      in: path
       schema:
         type: string
       required: true
       description: The registration plate of the vehicle you want to get
   schemas:
-    Vehicle:
+    vehicle:
       type: object   # Data type
       properties: 
         registration:
