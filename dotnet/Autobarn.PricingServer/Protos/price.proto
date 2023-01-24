@@ -16,10 +16,12 @@ message PriceRequest {
   string model = 2;
   string color = 3;
   int32 year = 4;
+  string correlationId = 5;
 }
 
 // The response message containing the greetings.
 message PriceReply {
   int32 price = 1;
   string currencyCode = 2;
+  string correlationId = 3;
 }
