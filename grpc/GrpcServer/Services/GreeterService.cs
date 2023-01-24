@@ -26,10 +26,8 @@ public class GreeterService : Greeter.GreeterBase {
             "en-AU" => $"G'day, {request.Name}",
             _ => "Greetings, {request.Name}"
         };
-        var weather = "Cloudy";
         return Task.FromResult(new HelloReply {
-            Message = greeting,
-            Weather = weather
+            Message = greeting
         });
 	}
 }

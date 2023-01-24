@@ -18,6 +18,6 @@ message HelloRequest {
 
 // The response message containing the greetings.
 message HelloReply {
-  string message = 1;
-  string weather = 2;
+  reserved 2;
+  string message = 1;  
 }
