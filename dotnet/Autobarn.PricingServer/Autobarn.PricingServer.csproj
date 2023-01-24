@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos/price.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+</Project>
