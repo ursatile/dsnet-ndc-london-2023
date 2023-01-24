@@ -32,10 +32,9 @@ namespace Autobarn.PricingClient {
 			return Task.CompletedTask;
 		}
 
-		private void HandleNewVehicleMessage(NewVehicleMessage message) {
+		private async Task HandleNewVehicleMessage(NewVehicleMessage message) {
 			logger.LogInformation("Handling NewVehicleMessage");
 			logger.LogInformation(message.ToString());
-			
 			try {
 				var request = new PriceRequest {
 					Year = message.Year,
@@ -44,8 +43,10 @@ namespace Autobarn.PricingClient {
 					Model = message.Model,
 					CorrelationId = message.AutobarnCorrelationId.ToString()
 				};
-				var reply = grpcClient.GetPrice(request);
+				var reply = await grpcClient.GetPriceAsync(request);
 				logger.LogInformation($"{reply.CorrelationId}: Got price: {reply.Price} {reply.CurrencyCode}");
+				var newVehiclePriceMessage = message.WithPrice(reply.Price, reply.CurrencyCode);
+				await bus.PubSub.PublishAsync(newVehiclePriceMessage);
 			} catch (Exception ex) {
 				logger.LogError(ex, $"{message.AutobarnCorrelationId}: Error in HandleNewVehicleMessage");
 				throw;
