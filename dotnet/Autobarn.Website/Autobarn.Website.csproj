@@ -21,9 +21,4 @@
     <ProjectReference Include="..\Autobarn.Messages\Autobarn.Messages.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="GraphQL\Schemas\" />
-    <Folder Include="GraphQL\Queries\" />
-  </ItemGroup>
-
 </Project>
