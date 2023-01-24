@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Autobarn.Messages;
@@ -34,13 +35,18 @@ namespace Autobarn.PricingClient {
 		private void HandleNewVehicleMessage(NewVehicleMessage message) {
 			logger.LogInformation("Handling NewVehicleMessage");
 			logger.LogInformation(message.ToString());
-			var request = new PriceRequest {
-				Year = message.Year,
-				Color = message.Color,
-				Make = message.Make, Model = message.Model
-			};
-			var reply = grpcClient.GetPrice(request);
-			logger.LogInformation($"Got price: {reply.Price} {reply.CurrencyCode}");
+			try {
+				var request = new PriceRequest {
+					Year = message.Year,
+					Color = message.Color,
+					Make = message.Make, Model = message.Model
+				};
+				var reply = grpcClient.GetPrice(request);
+				logger.LogInformation($"Got price: {reply.Price} {reply.CurrencyCode}");
+			} catch (Exception ex) {
+				logger.LogError(ex, "Error in HandleNewVehicleMessage");
+				throw;
+			}
 		}
 	}
 }
