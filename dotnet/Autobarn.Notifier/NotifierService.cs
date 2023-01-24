@@ -41,7 +41,7 @@ namespace Autobarn.AuditLog {
 			await hub.StartAsync();
 			logger.LogDebug($"Done. {sw.ElapsedMilliseconds}");
 			logger.LogDebug($"Sending message... {sw.ElapsedMilliseconds}");
-			await hub.SendAsync("ThisIsMagicStringNumberOne", "Autobarn.Notifier", json);
+			await hub.SendAsync("NotifyWebsiteOfVehiclePrice", "Autobarn.Notifier", json);
 			logger.LogDebug($"Done. {sw.ElapsedMilliseconds}");
 			logger.LogDebug($"Stopping hub... {sw.ElapsedMilliseconds}");
 			await hub.StopAsync();
